@@ -53,7 +53,8 @@ const authTypeTextMap: { [key in AuthType]: string } = {
 
 interface AuthFormProps {
   type: AuthType;
-  form: AuthState['login'];
+  form: Omit<AuthState['register'], 'passwordConfirm'> &
+    Partial<Pick<AuthState['register'], 'passwordConfirm'>>;
   onChange: React.ChangeEventHandler<AuthInputElement>;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
 }
@@ -90,7 +91,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
             name="passwordConfirm"
             placeholder="비밀번호 확인"
             type="password"
-            value={form.password}
+            value={form.passwordConfirm}
             onChange={onChange}
           />
         )}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import palette from 'lib/styles/palette';
 import { Link } from 'react-router-dom';
 import Button from 'components/common/Button';
-import { AuthType } from 'modules/auth/types';
+import { AuthInputFieldKey, AuthType } from 'modules/auth/types';
 
 const AuthFormBlock = styled.div`
   h3 {
@@ -62,19 +62,19 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
       <form>
         <StyledInput
           autoComplete="username"
-          name="username"
+          name={AuthInputFieldKey.Username}
           placeholder="아이디"
         />
         <StyledInput
           autoComplete="new-password"
-          name="password"
+          name={AuthInputFieldKey.Password}
           placeholder="비밀번호"
           type="password"
         />
         {type === AuthType.Register && (
           <StyledInput
             autoComplete="new-password"
-            name="passwordConfirm"
+            name={AuthInputFieldKey.PasswordConfirm}
             placeholder="비밀번호 확인"
             type="password"
           />

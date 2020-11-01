@@ -22,5 +22,6 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-empty-interface': 'off',
     'no-unused-vars': 'warn',
+    'react/prop-types': 'off',
   },
 };

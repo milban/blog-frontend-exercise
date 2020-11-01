@@ -1,9 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import palette from 'lib/styles/palette';
-import PropTypes from 'prop-types';
 
-const StyledButton = styled.button`
+interface StyledButtonProps {
+  fullWidth?: boolean;
+  cyan?: boolean;
+}
+
+const StyledButton = styled.button<StyledButtonProps>`
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -17,20 +21,31 @@ const StyledButton = styled.button`
   &:hover {
     background: ${palette.gray[6]};
   }
+
+  ${(props) =>
+    props.fullWidth &&
+    css`
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      width: 100%;
+      font-size: 1.125rem;
+    `}
+
+  ${(props) =>
+    props.cyan &&
+    css`
+      background: ${palette.cyan[5]};
+      &:hover {
+        background: ${palette.cyan[4]};
+      }
+    `}
 `;
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+type ButtonProps = StyledButtonProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button: React.FC<ButtonProps> = (props) => (
   <StyledButton {...props}>{props.children}</StyledButton>
 );
-
-/* typescript는 빌드 시점에만 작동하고 prop-types는 런타임 시점에 작동
-  https://github.com/yannickcr/eslint-plugin-react/issues/2275
-  https://ko.reactjs.org/docs/typechecking-with-proptypes.html
- */
-Button.propTypes = {
-  children: PropTypes.element,
-};
 
 export default Button;

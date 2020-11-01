@@ -1,1 +1,3 @@
-export type action = (args?: any) => { type: string; payload?: any };
+export type Action<T = any, Q = any> = (
+  args: T,
+) => { type: string; payload?: Q };

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import palette from 'lib/styles/palette';
 import { Link } from 'react-router-dom';
 import Button from 'components/common/Button';
+import { AuthType } from 'modules/auth/types';
 
 const AuthFormBlock = styled.div`
   h3 {
@@ -44,14 +45,9 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
 
-export enum AuthType {
-  login = '로그인',
-  register = '회원가입',
-}
-
 const authTypeTextMap: { [key in AuthType]: string } = {
-  [AuthType.login]: '로그인',
-  [AuthType.register]: '회원가입',
+  [AuthType.Login]: '로그인',
+  [AuthType.Register]: '회원가입',
 };
 
 interface AuthFormProps {
@@ -75,7 +71,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
           placeholder="비밀번호"
           type="password"
         />
-        {type === AuthType.register && (
+        {type === AuthType.Register && (
           <StyledInput
             autoComplete="new-password"
             name="passwordConfirm"
@@ -88,7 +84,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
         </ButtonWithMarginTop>
       </form>
       <Footer>
-        {type === AuthType.login ? (
+        {type === AuthType.Login ? (
           <Link to="/register">회원가입</Link>
         ) : (
           <Link to="/login">로그인</Link>

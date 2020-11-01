@@ -1,14 +1,11 @@
-import { Action } from 'modules/types';
-import { AuthForm, AuthType } from 'modules/auth/types';
+import {
+  CHANGE_FIELD,
+  ChangeField,
+  INITIALIZE_FORM,
+  InitializeForm,
+} from 'modules/auth/types';
 
-export const CHANGE_FIELD = 'auth/CHANGE_FIELD' as const;
-export const INITIALIZE_FORM = 'auth/INITIALIZE_FORM' as const;
-
-export const changeField: Action<AuthForm, AuthForm> = ({
-  form,
-  key,
-  value,
-}) => ({
+export const changeField: ChangeField = ({ form, key, value }) => ({
   type: CHANGE_FIELD,
   payload: {
     form,
@@ -16,9 +13,7 @@ export const changeField: Action<AuthForm, AuthForm> = ({
     value,
   },
 });
-export const initializeForm: Action<{ form: AuthType }, { form: AuthType }> = ({
-  form,
-}) => ({
+export const initializeForm: InitializeForm = ({ form }) => ({
   type: INITIALIZE_FORM,
   payload: { form },
 });

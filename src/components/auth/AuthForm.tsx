@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import palette from 'lib/styles/palette';
 import { Link } from 'react-router-dom';
 import Button from 'components/common/Button';
-import { AuthInputFieldKey, AuthType } from 'modules/auth/types';
+import { AuthState, AuthType } from 'modules/auth/types';
+import AuthInput, { AuthInputElement } from 'components/auth/AuthInput';
 
 const AuthFormBlock = styled.div`
   h3 {
@@ -13,7 +14,7 @@ const AuthFormBlock = styled.div`
   }
 `;
 
-const StyledInput = styled.input`
+const StyledAuthInput = styled(AuthInput)`
   font-size: 1rem;
   border: none;
   border-bottom: 1px solid ${palette.gray[5]};
@@ -52,31 +53,45 @@ const authTypeTextMap: { [key in AuthType]: string } = {
 
 interface AuthFormProps {
   type: AuthType;
+  form: AuthState['login'];
+  onChange: React.ChangeEventHandler<AuthInputElement>;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
+const AuthForm: React.FC<AuthFormProps> = ({
+  type,
+  form,
+  onChange,
+  onSubmit,
+}) => {
   const text = authTypeTextMap[type];
   return (
     <AuthFormBlock>
       <h3>로그인</h3>
-      <form>
-        <StyledInput
+      <form onSubmit={onSubmit}>
+        <StyledAuthInput
           autoComplete="username"
-          name={AuthInputFieldKey.Username}
+          name="username"
           placeholder="아이디"
+          value={form.username}
+          onChange={onChange}
         />
-        <StyledInput
+        <StyledAuthInput
           autoComplete="new-password"
-          name={AuthInputFieldKey.Password}
+          name="password"
           placeholder="비밀번호"
           type="password"
+          value={form.password}
+          onChange={onChange}
         />
         {type === AuthType.Register && (
-          <StyledInput
+          <StyledAuthInput
             autoComplete="new-password"
-            name={AuthInputFieldKey.PasswordConfirm}
+            name="passwordConfirm"
             placeholder="비밀번호 확인"
             type="password"
+            value={form.password}
+            onChange={onChange}
           />
         )}
         <ButtonWithMarginTop cyan fullWidth>

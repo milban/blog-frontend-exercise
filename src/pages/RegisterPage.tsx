@@ -5,9 +5,7 @@ import { AuthType } from 'modules/auth/types';
 
 const RegisterPage: React.FC = () => {
   return (
-    <AuthTemplate>
-      <AuthForm type={AuthType.Register} />
-    </AuthTemplate>
+    <AuthTemplate>{/*<AuthForm type={AuthType.Register} />*/}</AuthTemplate>
   );
 };
 

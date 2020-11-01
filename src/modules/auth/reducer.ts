@@ -1,17 +1,18 @@
 import {
   AuthAction,
   AuthState,
+  AuthType,
   CHANGE_FIELD,
   INITIALIZE_FORM,
 } from 'modules/auth/types';
 
 const initialState: AuthState = {
-  register: {
+  [AuthType.Register]: {
     username: '',
     password: '',
     passwordConfirm: '',
   },
-  login: {
+  [AuthType.Login]: {
     username: '',
     password: '',
   },

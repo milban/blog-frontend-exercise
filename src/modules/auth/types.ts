@@ -33,12 +33,12 @@ export type InitializeForm = (args: { form: AuthType }) => InitializeFormAction;
 export type AuthAction = ChangeFieldAction | InitializeFormAction;
 
 export interface AuthState {
-  register: {
+  [AuthType.Register]: {
     username: string;
     password: string;
     passwordConfirm: string;
   };
-  login: {
+  [AuthType.Login]: {
     username: string;
     password: string;
   };

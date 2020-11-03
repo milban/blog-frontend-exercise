@@ -1,15 +1,10 @@
 import { call, put } from 'redux-saga/effects';
 import { finishLoading, startLoading } from 'modules/loading';
 
-export const createRequestActionTypes = (
+export default function createRequestSaga(
   type: string,
-): [string, string, string] => {
-  const SUCCESS = `${type}_SUCCESS`;
-  const FAILURE = `${type}_FAILURE`;
-  return [type, SUCCESS, FAILURE];
-};
-
-export default function createRequestSaga(type: string, request: any) {
+  request: (...args: any) => any,
+) {
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
 

@@ -35,16 +35,16 @@ const auth = (
     }
     case INITIALIZE_FORM: {
       const { form } = action.payload;
-      return { ...state, [form]: { ...initialState[form] } };
+      return { ...state, [form]: { ...initialState[form] }, authError: null };
     }
     case REGISTER_SUCCESS:
-      return { ...state };
+      return { ...state, authError: null, auth: action.payload };
     case REGISTER_FAILURE:
-      return { ...state };
+      return { ...state, authError: action.payload };
     case LOGIN_SUCCESS:
-      return { ...state };
+      return { ...state, authError: null, auth: action.payload };
     case LOGIN_FAILURE:
-      return { ...state };
+      return { ...state, authError: action.payload };
     default:
       return state;
   }

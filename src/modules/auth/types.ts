@@ -1,4 +1,4 @@
-import { createRequestActionTypes } from 'lib/createRequestSaga';
+import { FailureAction, SuccessAction } from 'modules/types';
 
 export enum AuthType {
   Login = 'login',
@@ -16,15 +16,13 @@ export interface AuthFormInput {
 export const CHANGE_FIELD = 'auth/CHANGE_FIELD' as const;
 export const INITIALIZE_FORM = 'auth/INITIALIZE_FORM' as const;
 
-const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes(
-  'auth/REGISTER',
-);
-export { REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE };
+export const REGISTER = 'auth/REGISTER' as const;
+export const REGISTER_SUCCESS = 'auth/REGISTER_SUCCESS' as const;
+export const REGISTER_FAILURE = 'auth/REGISTER_FAILURE' as const;
 
-const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes(
-  'auth/LOGIN',
-);
-export { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE };
+export const LOGIN = 'auth/LOGIN' as const;
+export const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS' as const;
+export const LOGIN_FAILURE = 'auth/LOGIN_FAILURE' as const;
 
 interface ChangeFieldAction {
   type: typeof CHANGE_FIELD;
@@ -65,7 +63,11 @@ export type Login = (args: {
 export type AuthAction =
   | ChangeFieldAction
   | InitializeFormAction
+  | SuccessAction<typeof REGISTER_SUCCESS, { username: string; _id: string }>
+  | FailureAction<typeof REGISTER_FAILURE>
   | RegisterAction
+  | SuccessAction<typeof LOGIN_SUCCESS, any>
+  | FailureAction<typeof LOGIN_FAILURE>
   | LoginAction;
 
 export interface AuthState {

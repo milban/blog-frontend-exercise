@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'modules';
 import { AuthInputElement, StyledAuthInput } from 'components/auth/AuthInput';
-import { AuthType, changeField, initializeForm } from 'modules/auth';
+import { AuthType, changeField, initializeForm, register } from 'modules/auth';
 import AuthFooter from 'components/auth/AuthFooter';
 import { Link } from 'react-router-dom';
 import AuthFormContainer from 'components/auth/AuthFormContainer';
@@ -11,9 +11,9 @@ import ButtonWithMarginTop from 'components/auth/ButtonWithMarginTop';
 
 const RegisterForm: React.FC = () => {
   const dispatch = useDispatch();
-  const { form } = useSelector((state: RootState) => ({
-    form: state.auth.register,
-  }));
+  const { register: form, auth, authError } = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   const onChange: React.ChangeEventHandler<AuthInputElement> = (event) => {
     const { name, value } = event.target;
@@ -28,11 +28,29 @@ const RegisterForm: React.FC = () => {
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+    const { username, password, passwordConfirm } = form;
+    if (password !== passwordConfirm) {
+      // TODO: 오류 처리
+      return;
+    }
+    dispatch(register({ username, password }));
   };
 
   useEffect(() => {
     dispatch(initializeForm({ form: AuthType.Register }));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (authError) {
+      console.log('오류 발생');
+      console.log(authError);
+      return;
+    }
+    if (auth) {
+      console.log('회원가입 성공');
+      console.log(auth);
+    }
+  }, [authError, auth]);
 
   return (
     <AuthFormContainer>

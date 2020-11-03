@@ -7,9 +7,6 @@ interface StartLoadingAction {
     requestType: string;
   };
 }
-
-export type StartLoading = (requestType: string) => StartLoadingAction;
-
 interface FinishLoadingAction {
   type: typeof FINISH_LOADING;
   payload: {
@@ -17,6 +14,7 @@ interface FinishLoadingAction {
   };
 }
 
+export type StartLoading = (requestType: string) => StartLoadingAction;
 export type FinishLoading = (requestType: string) => FinishLoadingAction;
 
 export type LoadingAction = StartLoadingAction | FinishLoadingAction;

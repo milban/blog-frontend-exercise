@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'modules';
 import { AuthInputElement, StyledAuthInput } from 'components/auth/AuthInput';
@@ -9,6 +9,7 @@ import AuthFormContainer from 'components/auth/AuthFormContainer';
 import authTypeTextMap from 'lib/textMap/authTypeTextMap';
 import ButtonWithMarginTop from 'components/auth/ButtonWithMarginTop';
 import { check } from 'modules/user';
+import ErrorMessage from 'components/common/ErrorMessage';
 
 const RegisterForm: React.FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,8 @@ const RegisterForm: React.FC<RouteComponentProps> = ({ history }) => {
     authError,
     user,
   } = useSelector((state: RootState) => ({ ...state.auth, ...state.user }));
+
+  const [error, setError] = useState<string>();
 
   const onChange: React.ChangeEventHandler<AuthInputElement> = (event) => {
     const { name, value } = event.target;
@@ -33,8 +36,12 @@ const RegisterForm: React.FC<RouteComponentProps> = ({ history }) => {
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const { username, password, passwordConfirm } = form;
+    if ([username, password, passwordConfirm].includes('')) {
+      setError('빈 칸을 모두 입력하세요.');
+      return;
+    }
     if (password !== passwordConfirm) {
-      // TODO: 오류 처리
+      setError('비밀번호가 일치하지 않습니다.');
       return;
     }
     dispatch(register({ username, password }));
@@ -46,8 +53,11 @@ const RegisterForm: React.FC<RouteComponentProps> = ({ history }) => {
 
   useEffect(() => {
     if (authError) {
-      console.log('오류 발생');
-      console.log(authError);
+      if (authError.response?.status === 409) {
+        setError('이미 존재하는 계정명입니다.');
+        return;
+      }
+      setError('회원가입 실패');
       return;
     }
     if (auth) {
@@ -91,6 +101,7 @@ const RegisterForm: React.FC<RouteComponentProps> = ({ history }) => {
           value={form.passwordConfirm}
           onChange={onChange}
         />
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <ButtonWithMarginTop cyan fullWidth>
           {authTypeTextMap[AuthType.Register]}
         </ButtonWithMarginTop>

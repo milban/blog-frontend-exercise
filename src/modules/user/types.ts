@@ -1,4 +1,5 @@
 import { FailureAction, SuccessAction } from 'modules/types';
+import { AxiosError } from 'axios';
 
 export const TEMP_SET_USER = 'user/TEMP_SET_USER' as const;
 
@@ -27,5 +28,5 @@ export type UserAction =
 
 export interface UserState {
   user: any;
-  checkError: Error | null;
+  checkError: AxiosError | null;
 }

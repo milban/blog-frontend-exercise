@@ -9,6 +9,7 @@ import AuthFormContainer from 'components/auth/AuthFormContainer';
 import authTypeTextMap from 'lib/textMap/authTypeTextMap';
 import ButtonWithMarginTop from 'components/auth/ButtonWithMarginTop';
 import { check } from 'modules/user';
+import ErrorMessage from 'components/common/ErrorMessage';
 
 const LoginForm: React.FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
@@ -78,6 +79,7 @@ const LoginForm: React.FC<RouteComponentProps> = ({ history }) => {
           value={form.password}
           onChange={onChange}
         />
+        {authError && <ErrorMessage>로그인 실패</ErrorMessage>}
         <ButtonWithMarginTop cyan fullWidth>
           {authTypeTextMap[AuthType.Login]}
         </ButtonWithMarginTop>

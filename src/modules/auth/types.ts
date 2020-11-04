@@ -1,4 +1,5 @@
 import { FailureAction, SuccessAction } from 'modules/types';
+import { AxiosError } from 'axios';
 
 export enum AuthType {
   Login = 'login',
@@ -80,6 +81,6 @@ export interface AuthState {
     username: string;
     password: string;
   };
-  authError: Error | null;
+  authError: AxiosError | null;
   auth: any;
 }

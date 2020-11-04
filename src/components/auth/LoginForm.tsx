@@ -1,19 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'modules';
-import { AuthType, changeField, initializeForm } from 'modules/auth';
+import { AuthType, changeField, initializeForm, login } from 'modules/auth';
 import { AuthInputElement, StyledAuthInput } from 'components/auth/AuthInput';
 import AuthFooter from 'components/auth/AuthFooter';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import AuthFormContainer from 'components/auth/AuthFormContainer';
 import authTypeTextMap from 'lib/textMap/authTypeTextMap';
 import ButtonWithMarginTop from 'components/auth/ButtonWithMarginTop';
+import { check } from 'modules/user';
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
-  const { form } = useSelector((state: RootState) => ({
-    form: state.auth.login,
-  }));
+  const { login: form, auth, authError, user } = useSelector(
+    (state: RootState) => ({
+      ...state.auth,
+      ...state.user,
+    }),
+  );
 
   const onChange: React.ChangeEventHandler<AuthInputElement> = (e) => {
     const { value, name } = e.target;
@@ -28,11 +32,32 @@ const LoginForm: React.FC = () => {
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    const { username, password } = form;
+    dispatch(login({ username, password }));
   };
 
   useEffect(() => {
     dispatch(initializeForm({ form: AuthType.Login }));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (authError) {
+      console.log('오류 발생');
+      console.log(authError);
+      return;
+    }
+    if (auth) {
+      console.log('로그인 성공');
+      dispatch(check());
+    }
+  }, [authError, auth, dispatch]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    history.push('/');
+  }, [history, user]);
 
   return (
     <AuthFormContainer>
@@ -64,4 +89,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default withRouter(LoginForm);

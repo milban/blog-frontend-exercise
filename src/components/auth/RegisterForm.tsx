@@ -4,16 +4,20 @@ import { RootState } from 'modules';
 import { AuthInputElement, StyledAuthInput } from 'components/auth/AuthInput';
 import { AuthType, changeField, initializeForm, register } from 'modules/auth';
 import AuthFooter from 'components/auth/AuthFooter';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import AuthFormContainer from 'components/auth/AuthFormContainer';
 import authTypeTextMap from 'lib/textMap/authTypeTextMap';
 import ButtonWithMarginTop from 'components/auth/ButtonWithMarginTop';
+import { check } from 'modules/user';
 
-const RegisterForm: React.FC = () => {
+const RegisterForm: React.FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
-  const { register: form, auth, authError } = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const {
+    register: form,
+    auth,
+    authError,
+    user,
+  } = useSelector((state: RootState) => ({ ...state.auth, ...state.user }));
 
   const onChange: React.ChangeEventHandler<AuthInputElement> = (event) => {
     const { name, value } = event.target;
@@ -49,8 +53,16 @@ const RegisterForm: React.FC = () => {
     if (auth) {
       console.log('회원가입 성공');
       console.log(auth);
+      dispatch(check());
     }
-  }, [authError, auth]);
+  }, [authError, auth, dispatch]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    history.push('/');
+  }, [user]);
 
   return (
     <AuthFormContainer>
@@ -90,4 +102,4 @@ const RegisterForm: React.FC = () => {
   );
 };
 
-export default RegisterForm;
+export default withRouter(RegisterForm);

@@ -38,7 +38,7 @@ const Header: React.FC = () => {
         <Wrapper>
           <div className="logo">MILBANS</div>
           <div className="right">
-            <Button>로그인</Button>
+            <Button to="/login">로그인</Button>
           </div>
         </Wrapper>
       </HeaderBlock>

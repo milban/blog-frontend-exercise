@@ -1,13 +1,14 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import palette from 'lib/styles/palette';
+import { Link, LinkProps } from 'react-router-dom';
 
 interface StyledButtonProps {
   fullWidth?: boolean;
   cyan?: boolean;
 }
 
-const StyledButton = styled.button<StyledButtonProps>`
+const buttonStyle = css<StyledButtonProps>`
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -41,11 +42,24 @@ const StyledButton = styled.button<StyledButtonProps>`
     `}
 `;
 
-type ButtonProps = StyledButtonProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
+const StyledButton = styled.button`
+  ${buttonStyle}
+`;
 
-const Button: React.FC<ButtonProps> = (props) => (
-  <StyledButton {...props}>{props.children}</StyledButton>
-);
+const StyledLink = styled(Link)`
+  ${buttonStyle}
+`;
+
+type ButtonProps = StyledButtonProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement> &
+  Partial<LinkProps>;
+
+const Button: React.FC<ButtonProps> = (props) => {
+  return props.to ? (
+    <StyledLink to={props.to} cyan={props.cyan} {...props} />
+  ) : (
+    <StyledButton {...props}>{props.children}</StyledButton>
+  );
+};
 
 export default Button;

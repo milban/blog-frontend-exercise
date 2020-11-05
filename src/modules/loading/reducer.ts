@@ -7,7 +7,10 @@ import {
 
 const initialState: LoadingState = {};
 
-const loading = (state: LoadingState = initialState, action: LoadingAction) => {
+const loading = (
+  state: LoadingState = initialState,
+  action: LoadingAction,
+): LoadingState => {
   switch (action.type) {
     case START_LOADING:
       return { ...state, [action.payload.requestType]: true };

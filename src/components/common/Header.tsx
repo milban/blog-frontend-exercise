@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Responsive from 'components/common/Responsive';
 import Button from 'components/common/Button';
+import { useSelector } from 'react-redux';
+import { RootState } from 'modules';
+import { Link } from 'react-router-dom';
 
 const HeaderBlock = styled.header`
   position: fixed;
@@ -31,15 +34,32 @@ const Spacer = styled.div`
   height: 4rem;
 `;
 
+const UserInfo = styled.div`
+  font-weight: 800;
+  margin-right: 1rem;
+`;
+
 const Header: React.FC = () => {
+  const { user } = useSelector(({ user }: RootState) => ({
+    user: user.user,
+  }));
   return (
     <>
       <HeaderBlock>
         <Wrapper>
-          <div className="logo">MILBANS</div>
-          <div className="right">
-            <Button to="/login">로그인</Button>
-          </div>
+          <Link to="/" className="logo">
+            MILBANS
+          </Link>
+          {user ? (
+            <div className="right">
+              <UserInfo>{user.username}</UserInfo>
+              <Button>로그아웃</Button>
+            </div>
+          ) : (
+            <div className="right">
+              <Button to="/login">로그인</Button>
+            </div>
+          )}
         </Wrapper>
       </HeaderBlock>
       <Spacer />

@@ -11,10 +11,13 @@ const initialState: UserState = {
   checkError: null,
 };
 
-const user = (state: UserState = initialState, action: UserAction) => {
+const user = (
+  state: UserState = initialState,
+  action: UserAction,
+): UserState => {
   switch (action.type) {
     case TEMP_SET_USER:
-      return { ...state, user: action.payload };
+      return { ...state, user: action.payload.user };
     case CHECK_SUCCESS:
       return { ...state, user: action.payload, checkError: null };
     case CHECK_FAILURE:

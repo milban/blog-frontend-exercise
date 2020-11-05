@@ -1,6 +1,8 @@
 import { FailureAction, SuccessAction } from 'modules/types';
 import { AxiosError } from 'axios';
 
+export type User = { username: string; _id: string };
+
 export const TEMP_SET_USER = 'user/TEMP_SET_USER' as const;
 
 export const CHECK = 'user/CHECK' as const;
@@ -10,23 +12,23 @@ export const CHECK_FAILURE = 'user/CHECK_FAILURE' as const;
 interface TempSetUserAction {
   type: typeof TEMP_SET_USER;
   payload: {
-    user: any;
+    user: User;
   };
 }
 interface CheckAction {
   type: typeof CHECK;
 }
 
-export type TempSetUser = (user: any) => TempSetUserAction;
+export type TempSetUser = (user: User) => TempSetUserAction;
 export type Check = () => CheckAction;
 
 export type UserAction =
   | TempSetUserAction
-  | SuccessAction<typeof CHECK_SUCCESS, { username: string; _id: string }>
+  | SuccessAction<typeof CHECK_SUCCESS, User>
   | FailureAction<typeof CHECK_FAILURE>
   | CheckAction;
 
 export interface UserState {
-  user: any;
+  user: User | null;
   checkError: AxiosError | null;
 }

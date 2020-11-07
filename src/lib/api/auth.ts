@@ -8,3 +8,5 @@ export const register = ({ password, username }: AuthState[AuthType.Login]) =>
   client.post('/api/auth/register', { password, username });
 
 export const check = () => client.get('/api/auth/check');
+
+export const logout = () => client.post('/api/auth/logout');

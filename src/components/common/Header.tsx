@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Responsive from 'components/common/Responsive';
 import Button from 'components/common/Button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'modules';
 import { Link } from 'react-router-dom';
+import { logout } from 'modules/user';
 
 const HeaderBlock = styled.header`
   position: fixed;
@@ -40,9 +41,14 @@ const UserInfo = styled.div`
 `;
 
 const Header: React.FC = () => {
+  const dispatch = useDispatch();
   const { user } = useSelector(({ user }: RootState) => ({
     user: user.user,
   }));
+  const onLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <>
       <HeaderBlock>
@@ -53,7 +59,7 @@ const Header: React.FC = () => {
           {user ? (
             <div className="right">
               <UserInfo>{user.username}</UserInfo>
-              <Button>로그아웃</Button>
+              <Button onClick={onLogout}>로그아웃</Button>
             </div>
           ) : (
             <div className="right">

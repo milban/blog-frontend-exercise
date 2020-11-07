@@ -1,6 +1,7 @@
 import {
   CHECK_FAILURE,
   CHECK_SUCCESS,
+  LOGOUT,
   TEMP_SET_USER,
   UserAction,
   UserState,
@@ -22,6 +23,8 @@ const user = (
       return { ...state, user: action.payload, checkError: null };
     case CHECK_FAILURE:
       return { ...state, user: null, checkError: action.payload };
+    case LOGOUT:
+      return { ...state, user: null };
     default:
       return state;
   }

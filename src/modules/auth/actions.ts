@@ -35,6 +35,7 @@ export const login: Login = (args) => ({
 
 const registerSaga = createRequestSaga(REGISTER, authApi.register);
 const loginSaga = createRequestSaga(LOGIN, authApi.login);
+
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);
